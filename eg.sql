@@ -1,12 +1,18 @@
 CREATE EXTENSION multicorn;
 
 DROP FOREIGN TABLE IF EXISTS docker_containers;
+DROP FOREIGN TABLE IF EXISTS docker_images;
+
 DROP SERVER IF EXISTS docker_containers;
+DROP SERVER IF EXISTS docker_images;
 
 
 CREATE SERVER docker_containers FOREIGN DATA WRAPPER multicorn options (
-    wrapper 'dockerfdw.wrappers.containers.ContainerFdw'
-);
+    wrapper 'dockerfdw.wrappers.containers.ContainerFdw');
+
+CREATE SERVER docker_image FOREIGN DATA WRAPPER multicorn options (
+    wrapper 'dockerfdw.wrappers.images.ImageFdw');
+
 
 CREATE foreign table docker_containers (
     "id"       TEXT,
@@ -18,4 +24,14 @@ CREATE foreign table docker_containers (
     host 'unix:///run/docker.sock'
 );
 
-SELECT * FROM docker_containers;
+
+CREATE foreign table docker_images (
+    "id"          TEXT,
+    "repo_tag"    TEXT,
+    "created"     TIMESTAMP WITH TIME ZONE
+) server docker_image options (
+    host 'unix:///run/docker.sock'
+);
+
+
+SELECT * FROM docker_images;

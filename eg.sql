@@ -35,3 +35,4 @@ CREATE foreign table docker_images (
 
 
 SELECT * FROM docker_images;
+SELECT * FROM docker_containers;

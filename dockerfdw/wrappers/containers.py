@@ -23,6 +23,7 @@ class ContainerFdw(BaseDockerFdw):
     spec = {
         "id": lambda x: x['Id'],
         "image": lambda x: x['Image'],
+        "name": lambda x: x['Name'],
         "names": lambda x: x['Names'],
         "command": lambda x: x['Config']['Cmd'],
         "privileged": lambda x: x['HostConfig']['Privileged'],

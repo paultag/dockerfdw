@@ -17,6 +17,7 @@ CREATE SERVER docker_image FOREIGN DATA WRAPPER multicorn options (
 CREATE foreign table docker_containers (
     "id"          TEXT,
     "image"       TEXT,
+    "name"        TEXT,
     "names"       TEXT[],
     "privileged"  BOOLEAN,
     "ip"          TEXT,

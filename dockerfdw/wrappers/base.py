@@ -36,5 +36,6 @@ class BaseDockerFdw(ForeignDataWrapper):
         super(BaseDockerFdw, self).__init__(fdw_options, fdw_columns)
         self.host = fdw_options['host']
         self.client = docker.Client(base_url=self.host, version='1.12')
+
         if self.proxy_type:
             self.proxy = self.proxy_type(self.client)

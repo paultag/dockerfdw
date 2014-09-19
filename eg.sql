@@ -42,5 +42,7 @@ CREATE foreign table docker_images (
 );
 
 
-SELECT * FROM docker_images;
-SELECT (names, ip) FROM docker_containers;
+SELECT docker_containers.ip, docker_containers.names, docker_images.tags
+  FROM docker_containers
+  RIGHT JOIN docker_images
+  ON docker_containers.image=docker_images.id;

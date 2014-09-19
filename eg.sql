@@ -15,24 +15,32 @@ CREATE SERVER docker_image FOREIGN DATA WRAPPER multicorn options (
 
 
 CREATE foreign table docker_containers (
-    "id"       TEXT,
-    "image"    TEXT,
-    "names"    TEXT[],
-    "command"  TEXT,
-    "created"  TIMESTAMP WITH TIME ZONE
+    "id"          TEXT,
+    "image"       TEXT,
+    "names"       TEXT[],
+    "privileged"  BOOLEAN,
+    "ip"          TEXT,
+    "bridge"      TEXT,
+    "running"     BOOLEAN,
+    "pid"         INT,
+    "exit_code"   INT,
+    "command"     TEXT[]
 ) server docker_containers options (
     host 'unix:///run/docker.sock'
 );
 
 
 CREATE foreign table docker_images (
-    "id"          TEXT,
-    "repo_tag"    TEXT,
-    "created"     TIMESTAMP WITH TIME ZONE
+    "id"              TEXT,
+    "architecture"    TEXT,
+    "author"          TEXT,
+    "comment"         TEXT,
+    "parent"          TEXT,
+    "tags"            TEXT[]
 ) server docker_image options (
     host 'unix:///run/docker.sock'
 );
 
 
 SELECT * FROM docker_images;
-SELECT * FROM docker_containers;
+SELECT (names, ip) FROM docker_containers;

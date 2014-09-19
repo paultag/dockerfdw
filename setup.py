@@ -8,7 +8,13 @@ long_description = "Docker FDW"
 setup(
     name="dockerfdw",
     version=__version__,
-    packages=['dockerfdw',],
+    packages=[
+        'dockerfdw',
+        'dockerfdw.wrappers',
+    ],
+    install_requires=[
+        'docker-py',
+    ],
     author="Paul Tagliamonte",
     author_email="paultag@debian.org",
     long_description=long_description,

@@ -43,7 +43,9 @@ CREATE foreign table docker_images (
 );
 
 
-SELECT docker_containers.ip, docker_containers.names, docker_images.tags
-  FROM docker_containers
-  RIGHT JOIN docker_images
-  ON docker_containers.image=docker_images.id;
+-- SELECT docker_containers.ip, docker_containers.names, docker_images.tags
+--   FROM docker_containers
+--   RIGHT JOIN docker_images
+--   ON docker_containers.image=docker_images.id;
+
+DELETE FROM docker_containers WHERE name='/foo';

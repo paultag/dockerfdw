@@ -19,6 +19,7 @@ class ContainerProxy(APIProxy):
 
 class ContainerFdw(BaseDockerFdw):
     proxy_type = ContainerProxy
+    rowid_column = 'id'
 
     spec = {
         "id": lambda x: x['Id'],
@@ -33,6 +34,10 @@ class ContainerFdw(BaseDockerFdw):
         "pid": lambda x: x['State']['Pid'],
         "exit_code": lambda x: x['State']['ExitCode'],
     }
+
+    def delete(self, id_):
+        self.client.stop(id_, timeout=10)
+        self.client.remove_container(id_)
 
     def execute(self, quals, columns):
         for container in self.proxy.list():

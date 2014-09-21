@@ -40,8 +40,6 @@ class ContainerFdw(BaseDockerFdw):
         self.client.remove_container(id_)
 
     def insert(self, new_values):
-        raise NotImplementedError("INSERT not implemented yet")
-
         required = ['image']
         blacklist = ['bridge', 'ip', 'pid', 'exit_code', 'id',
                      'running', 'names']
@@ -67,18 +65,18 @@ class ContainerFdw(BaseDockerFdw):
             else:
                 config[el] = default[el]
 
-        self.client.create_container(detach=False, **config)
-
-        #    image, command=None, hostname=None, user=None,
-        #    detach=False, stdin_open=False, tty=False, mem_limit=0,
-        #    ports=None, environment=None, dns=None, volumes=None,
-        #    volumes_from=None, network_disabled=False, name=None,
-        #    entrypoint=None, cpu_shares=None, working_dir=None,
-        #    memswap_limit=0
-        #)
-
+        privileged = config.pop("privileged")
+        client = self.client.create_container(
+            stdin_open=True,
+            tty=True,
+            detach=False,
+            **config
+        )
+        id_ = client.pop("Id")
+        self.client.start(id_, privileged=privileged)
 
         assert new_values == {}
+        return {"id": id_}
 
     def execute(self, quals, columns):
         for container in self.proxy.list():

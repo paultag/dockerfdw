@@ -1,0 +1,11 @@
+pg:
+  build: pg
+  ports:
+   - 5432:5432
+  volumes:
+   - .:/src
+   - /var/run/docker.sock:/run/docker.sock
+  environment:
+   DB_USER: docker
+   DB_PASS: docker
+   DB_NAME: docker

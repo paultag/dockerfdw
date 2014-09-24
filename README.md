@@ -1,4 +1,4 @@
-dockerfwd
+dockerfdw
 =========
 
 PostgreSQL Foreign Data Wrapper for Docker!
